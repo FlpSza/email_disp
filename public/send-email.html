@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enviar E-mail</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        input[type="text"], input[type="file"], textarea {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px 0;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .back-button {
+            background-color: #007bff;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Enviar E-mail</h1>
+    <form id="sendEmailForm">
+        <label for="subject">Assunto:</label>
+        <input type="text" id="subject" name="subject" required>
+
+        <label for="message">Mensagem:</label>
+        <textarea id="message" name="message" rows="5" required></textarea>
+
+        <label for="attachment">Anexo:</label>
+        <input type="file" id="attachment" name="attachment">
+
+        <label for="emailList">Carregar lista de emails (Excel):</label>
+        <input type="file" id="emailList" name="emailList" accept=".xlsx, .xls" required>
+
+        <label for="image">Carregar imagem para o email:</label>
+        <input type="file" id="image" name="image" accept="image/*">
+
+        <label for="interval">Intervalo entre envios (em segundos):</label>
+        <input type="text" id="interval" name="interval" required>
+
+        <button type="submit">Enviar Emails</button>
+        <button type="button" class="back-button" onclick="goBack()">Voltar</button>
+    </form>
+
+    <script>
+        document.getElementById('sendEmailForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = new FormData();
+            formData.append('subject', document.getElementById('subject').value);
+            formData.append('message', document.getElementById('message').value);
+            formData.append('attachment', document.getElementById('attachment').files[0]);
+            formData.append('emailList', document.getElementById('emailList').files[0]);
+            formData.append('image', document.getElementById('image').files[0]);
+            formData.append('interval', document.getElementById('interval').value);
+
+            // Enviar os dados para o servidor
+            fetch('/send-email', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Emails enviados com sucesso!');
+                } else {
+                    alert('Erro ao enviar emails.');
+                }
+            })
+            .catch(error => console.error('Erro:', error));
+        });
+
+        function goBack() {
+            window.history.back(); // Volta para a página anterior
+        }
+    </script>
+</body>
+</html>

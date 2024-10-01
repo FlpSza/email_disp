@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",               // Usa a sintaxe ES Modules
+    "target": "ES6",                  // Target ES6 ou superior
+    "rootDir": "./src",               // Diretório de origem
+    "outDir": "./dist",               // Diretório de saída
+    "strict": true,                   // Verificações estritas
+    "esModuleInterop": true,          // Interoperabilidade com módulos CommonJS
+    "moduleResolution": "node"        // Resolução de módulos
+  },
+  "include": ["src/**/*.ts"]
+}
